@@ -1,16 +1,16 @@
 #include<iostream.h>
 #include<math.h>
 #include<stdlib.h>
-#include<fstream.h>																						 //º¯ÊıÍ·
+#include<fstream.h>																						 //å‡½æ•°å¤´
 
 
 /*-------------------------------------------------------------------------------------*/
-//ÔÚÕâÀïĞŞ¸ÄÄãµÄ¾«¶È
+//åœ¨è¿™é‡Œä¿®æ”¹ä½ çš„ç²¾åº¦
 
 double eps=1e-6;
 
 /*-------------------------------------------------------------------------------------*/
-//ÔÚÕâÀïĞŞ¸ÄÄãµÄº¯Êıf(x)
+//åœ¨è¿™é‡Œä¿®æ”¹ä½ çš„å‡½æ•°f(x)
 
 double f(double x)
 {
@@ -18,7 +18,7 @@ double f(double x)
 }
 
 /*-------------------------------------------------------------------------------------*/
-//ÔÚÕâÀïĞŞ¸ÄÄãµÄµ¼Êıdf(x)
+//åœ¨è¿™é‡Œä¿®æ”¹ä½ çš„å¯¼æ•°df(x)
 
 double df(double x)
 {
@@ -26,7 +26,7 @@ double df(double x)
 }
 
 /*-------------------------------------------------------------------------------------*/
-//ÔÚÕâÀïĞŞ¸ÄÄãµÄµü´úÊ½g(x)
+//åœ¨è¿™é‡Œä¿®æ”¹ä½ çš„è¿­ä»£å¼g(x)
 
 double g(double x)
 {
@@ -35,64 +35,64 @@ double g(double x)
 }
 
 /*-------------------------------------------------------------------------------------*/
-//ÒÔÏÂ´úÂëÇëÎğĞŞ¸Ä
-//º¯ÊıÉùÃ÷Çø
+//ä»¥ä¸‹ä»£ç è¯·å‹¿ä¿®æ”¹
+//å‡½æ•°å£°æ˜åŒº
 
-void welcome();																								//»¶Ó­Ò³Ãæ
+void welcome();																								//æ¬¢è¿é¡µé¢
 
-class solve;																										//ÉùÃ÷Àà
+class solve;																										//å£°æ˜ç±»
 
-void method_select(solve &a);																	//·½·¨·ÖÀà
+void method_select(solve &a);																	//æ–¹æ³•åˆ†ç±»
 
-double half(double a,double b,double eps);												//¶ş·Ö·¨Ëã·¨º¯ÊıÉùÃ÷
-double newn(double x0, double eps);															//Å£¶Ùµü´ú·¨Ëã·¨º¯ÊıÉùÃ÷
-double itr(double (*fun)(double), double x0, double eps);						//¼òµ¥µü´ú·¨Ëã·¨º¯ÊıÉùÃ÷
-double chord(double x0, double eps);														//ÏÒ½Ø·¨Ëã·¨º¯ÊıÉùÃ÷
-double stef(double x0, double x);																//Ê·µÙ·ÒËïËã·¨×é¼şº¯ÊıÉùÃ÷
-double steffensen(double x0, double eps);												//Ê·µÙ·ÒËïËã·¨º¯ÊıÉùÃ÷
+double half(double a,double b,double eps);												//äºŒåˆ†æ³•ç®—æ³•å‡½æ•°å£°æ˜
+double newn(double x0, double eps);															//ç‰›é¡¿è¿­ä»£æ³•ç®—æ³•å‡½æ•°å£°æ˜
+double itr(double (*fun)(double), double x0, double eps);						//ç®€å•è¿­ä»£æ³•ç®—æ³•å‡½æ•°å£°æ˜
+double chord(double x0, double eps);														//å¼¦æˆªæ³•ç®—æ³•å‡½æ•°å£°æ˜
+double stef(double x0, double x);																//å²è’‚èŠ¬å­™ç®—æ³•ç»„ä»¶å‡½æ•°å£°æ˜
+double steffensen(double x0, double eps);												//å²è’‚èŠ¬å­™ç®—æ³•å‡½æ•°å£°æ˜
 
-double gc(double x0,double x)																		//ÏÒ½Ø·¨¹«Ê½
+double gc(double x0,double x)																		//å¼¦æˆªæ³•å…¬å¼
 {
 	return (x-f(x)/(f(x)-f(x0))*(x-x0));
 }
-double g1(double x)																						//¼òµ¥µü´ú¹«Ê½1
+double g1(double x)																						//ç®€å•è¿­ä»£å…¬å¼1
 {
 	return (-1.0) / (4 * pow(x, 2) - 8 * x + 2);
 }
-double g2(double x)																						//¼òµ¥µü´ú¹«Ê½2
+double g2(double x)																						//ç®€å•è¿­ä»£å…¬å¼2
 {
 	double t=1.0/2;
 	return pow(((4*pow(x,3)+2*x+1)*(1.0/8)),t);
 }
-double g3(double x)																						//¼òµ¥µü´ú¹«Ê½3,¼´ÉÏÃæµÄµü´úÊ½g(x)
+double g3(double x)																						//ç®€å•è¿­ä»£å…¬å¼3,å³ä¸Šé¢çš„è¿­ä»£å¼g(x)
 {
 	double t=1.0/3;
 	return pow(((8*pow(x,2)-2*x-1)*(1.0/4)),t);
 }
-double g4(double x0)																					//Å£¶Ùµü´ú·¨±Æ½ü
+double g4(double x0)																					//ç‰›é¡¿è¿­ä»£æ³•é€¼è¿‘
 {
 	return (x0 - f(x0) / df(x0));
 }
-double g5(double x)																						//Ê·µÙ·ÒËïËã·¨µü´ú¹«Ê½
+double g5(double x)																						//å²è’‚èŠ¬å­™ç®—æ³•è¿­ä»£å…¬å¼
 {
 	return ((-4 * pow(x, 3) + 8 * pow(x, 2) - 1) * (1.0 / 2));
 }
 
-class solve																										//½â·¨Àà
+class solve																										//è§£æ³•ç±»
 {
-	double a,b;																									//Á½¸öÇø¼ä¶Ëµã
-	double h;																									//²½³¤Öµ
-	double c[5][2];																							//Çø¼ä¶Ëµã´¢´æ
-	int i;																												//¼ÆÊı±äÁ¿
-	double result[3];																						//½á¹û´¢´æ
+	double a,b;																									//ä¸¤ä¸ªåŒºé—´ç«¯ç‚¹
+	double h;																									//æ­¥é•¿å€¼
+	double c[5][2];																							//åŒºé—´ç«¯ç‚¹å‚¨å­˜
+	int i;																												//è®¡æ•°å˜é‡
+	double result[3];																						//ç»“æœå‚¨å­˜
 public:
-	solve(double p=0,double q=1,double r=0.1)												//¹¹Ôìº¯Êı
+	solve(double p=0,double q=1,double r=0.1)												//æ„é€ å‡½æ•°
 	{
 		a=p;
 		b=q;
 		h=r;
 	}
-	void filter()																									//É¸Ñ¡Çø¼ä²¢´¢´æ
+	void filter()																									//ç­›é€‰åŒºé—´å¹¶å‚¨å­˜
 	{
 		i=0;
 		double a0,b0;
@@ -110,7 +110,7 @@ public:
 			b0+=h;	
 		}while(b0<=b);
 	}
-	void halfs()																									//¶ş·Ö·¨
+	void halfs()																									//äºŒåˆ†æ³•
 	{
 		filter();
 		double x;
@@ -124,7 +124,7 @@ public:
 			cout<<"x="<<x<<endl;
 		}
 	}
-	void itrs()																									//¼òµ¥µü´ú·¨
+	void itrs()																									//ç®€å•è¿­ä»£æ³•
 	{
 		filter();
 		double x;
@@ -139,7 +139,7 @@ public:
 		cout << "x3=" << x << endl;
 		result[2]=x;
 	}
-	void newns()																								//Å£¶Ùµü´ú·¨
+	void newns()																								//ç‰›é¡¿è¿­ä»£æ³•
 	{
 		filter();
 		double x;
@@ -151,7 +151,7 @@ public:
 			cout << "\nx=" << x << endl;
 		}
 	}
-	void chords()																								//ÏÒ½Ø·¨
+	void chords()																								//å¼¦æˆªæ³•
 	{
 		filter();
 		double x;
@@ -163,7 +163,7 @@ public:
 			cout << "\nx=" << x << endl;
 		}
 	}
-	void steffensens()																						//Steffensen·¨
+	void steffensens()																						//Steffensenæ³•
 	{
 		filter();
 		double x;
@@ -175,7 +175,7 @@ public:
 			cout << "x=" << x << endl;
 		}
 	}
-	void output()																								//Êä³öÖÁÎÄ¼ş
+	void output()																								//è¾“å‡ºè‡³æ–‡ä»¶
 	{
 		ofstream outfile("answer.txt");
 		for(int i=0;i<3;i++)
@@ -187,11 +187,11 @@ public:
 	
 };
 
-void main()																										//Ö÷º¯Êı
+void main()																										//ä¸»å‡½æ•°
 {
 	welcome();
-	double m,n;																								//Çø¼ä¶Ëµã
-	cout<<"ÇëÊäÈëÇø¼ä[a,b]¶Ëµã:"<<endl;
+	double m,n;																								//åŒºé—´ç«¯ç‚¹
+	cout<<"è¯·è¾“å…¥åŒºé—´[a,b]ç«¯ç‚¹:"<<endl;
 	cout<<"a=";
 	cin>>m;
 	cout<<"b=";
@@ -204,11 +204,11 @@ void main()																										//Ö÷º¯Êı
 void method_select(solve &a)
 {
 	system("cls");
-	cout<<"ÇëÊäÈëÄãÏëÑ¡Ôñ·½·¨¶ÔÓ¦µÄÊı×Ö:"<<endl;
-	cout<<"1:¶ş·Ö·¨\n2:¼òµ¥µü´ú·¨\n3:Steffensen·¨\n4:Å£¶Ù·¨\n5:ÏÒ½Ø·¨\n"<<endl;
+	cout<<"è¯·è¾“å…¥ä½ æƒ³é€‰æ‹©æ–¹æ³•å¯¹åº”çš„æ•°å­—:"<<endl;
+	cout<<"1:äºŒåˆ†æ³•\n2:ç®€å•è¿­ä»£æ³•\n3:Steffensenæ³•\n4:ç‰›é¡¿æ³•\n5:å¼¦æˆªæ³•\n"<<endl;
 	int n;
 	cin>>n;
-	switch(n)//·ÖÖ§
+	switch(n)//åˆ†æ”¯
 	{
 	case 1:		a.halfs();
 		break;
@@ -225,13 +225,13 @@ void method_select(solve &a)
 
 void welcome()
 {
-	cout<<"»¶Ó­ÄãÊ¹ÓÃ±¾³ÌĞò!\n";
-	cout<<"±¾³ÌĞòÓÉÍõÔóéÅ£¬ÓÚºÀÁÖ£¬·ëìÏĞù¹²Í¬Íê³É\n";
-	cout<<"ĞŞ¸Ä·½³ÌÇëÔÚÔ´ÎÄ¼şÖĞĞŞ¸Äº¯Êı£¬µ¼º¯ÊıºÍµü´úº¯Êı\n";
-	cout<<"Ä¬ÈÏ·½³Ì:4x^3-8x^2+2x+1=0\n";
-	cout<<"Ñ¡Ôñ·½·¨À´½âÉÏÊö·½³Ì,µÃµ½µÄ½â»á±»±£´æÔÚanswer.txtÖĞ\n";
+	cout<<"æ¬¢è¿ä½ ä½¿ç”¨æœ¬ç¨‹åº!\n";
+	cout<<"æœ¬ç¨‹åºç”±ä¸‰äººå…±åŒå®Œæˆ\n";
+	cout<<"ä¿®æ”¹æ–¹ç¨‹è¯·åœ¨æºæ–‡ä»¶ä¸­ä¿®æ”¹å‡½æ•°ï¼Œå¯¼å‡½æ•°å’Œè¿­ä»£å‡½æ•°\n";
+	cout<<"é»˜è®¤æ–¹ç¨‹:4x^3-8x^2+2x+1=0\n";
+	cout<<"é€‰æ‹©æ–¹æ³•æ¥è§£ä¸Šè¿°æ–¹ç¨‹,å¾—åˆ°çš„è§£ä¼šè¢«ä¿å­˜åœ¨answer.txtä¸­\n";
 }
-//ÒÔÏÂÊÇ²»Í¬Ëã·¨¸÷×ÔµÄº¯Êı
+//ä»¥ä¸‹æ˜¯ä¸åŒç®—æ³•å„è‡ªçš„å‡½æ•°
 double half(double a,double b,double eps)
 {
 	int it=0;
@@ -257,8 +257,8 @@ double half(double a,double b,double eps)
 	}
 	while(fabs(y)>eps);
 	return(x);
-}//¶ş·Ö·¨
-double newn(double x0, double eps)//Å£¶Ùµü´ú·¨
+}//äºŒåˆ†æ³•
+double newn(double x0, double eps)//ç‰›é¡¿è¿­ä»£æ³•
 {
 	int it = 0, e;
 	double x;
@@ -271,7 +271,7 @@ double newn(double x0, double eps)//Å£¶Ùµü´ú·¨
 	} while (e);
 	return(x);
 }
-double itr(double (*fun)(double), double x0, double eps)//¼òµ¥µü´ú·¨
+double itr(double (*fun)(double), double x0, double eps)//ç®€å•è¿­ä»£æ³•
 {
 	int it = 0, e;
 	double x;
@@ -284,7 +284,7 @@ double itr(double (*fun)(double), double x0, double eps)//¼òµ¥µü´ú·¨
 	} while (e);
 	return(x);
 }
-double chord(double x0, double eps)//ÏÒ½Ø·¨
+double chord(double x0, double eps)//å¼¦æˆªæ³•
 {
 	int it = 0, e;
 	double x, x1;
@@ -299,14 +299,14 @@ double chord(double x0, double eps)//ÏÒ½Ø·¨
 	} while (e);
 	return(x);
 }
-double stef(double x0, double x)//SteffensenËã·¨×é¼ş
+double stef(double x0, double x)//Steffensenç®—æ³•ç»„ä»¶
 {
 	double y, z;
 	y = g5(x0);
 	z = g5(y);
 	return (x0 - (powl((y - x0), 2)) / (z - 2 * y + x0));
 }
-double steffensen(double x0, double eps)//Stenffensen·¨
+double steffensen(double x0, double eps)//Stenffensenæ³•
 {
 	int it = 0, e;
 	double x, x1;
